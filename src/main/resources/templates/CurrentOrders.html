@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VeloFix</title>
+  <link rel="stylesheet" href="/css/curentOrders.css">
+  <link rel="icon" href="/images/Logo_Tab.png">
+  <script src = "/js/orders.js" defer> </script>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="logo">
+      <a href="/main">
+        <img src="/images/VeloFix_Logo_Blue.png" alt="Logo">
+      </a>
+    </div>
+    <nav class="nav">
+      <a href="/main#about">About us</a>
+      <a href="/main#services">Services</a>
+      <a href="/main#contact">Contacts</a>
+    </nav>
+    <div class="header-right">
+
+      <div class="dropdown"
+           th:if="${sessionUser != null and (sessionUser.role.name() == 'MANAGER' or sessionUser.role.name() == 'MECHANIC' or sessionUser.role.name() == 'DIRECTOR')}">
+        <button class="icon-btn" id="adminBtn">
+          <img src="/images/AdminPanel-icon.png" alt="Admin Panel">
+        </button>
+        <div class="dropdown-content" id="adminDropdown">
+          <a href="/admin/users">User Management</a>
+          <a href="/admin/parts">Part Management</a>
+          <a href="/admin/orders">Order Management</a>
+        </div>
+      </div>
+
+
+      <div class="notification-wrapper">
+        <button class="icon-btn" id="notif-btn">
+          <img src="/images/Notification_icon_blue.png" alt="Notifications">
+        </button>
+        <div class="notification-dropdown" id="notif-dropdown" style="display: none;">
+          <p>Loading notifications...</p>
+        </div>
+      </div>
+
+      <button class="icon-btn">
+        <a href="/signIn" class="icon-btn">
+          <div class="logo">
+            <img src="/images/Account_icon.png">
+          </div>
+        </a>
+      </button>
+
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="form-wrapper">
+    <h1>Personal Cabinet</h1>
+    <div class="form-tabs">
+      <a th:href="@{/create}">
+        <span class="tab">Create bid</span>
+      </a>
+      <a th:href="@{/order}">
+        <span class="tab active">Current orders</span>
+      </a>
+      <a th:href="@{/order/history}">
+        <span class="tab">History</span>
+      </a>
+      <a th:href="@{/personal}">
+        <span class="tab">Personal data</span>
+      </a>
+    </div>
+    <div class="orders-list">
+      <div th:each="order : ${orders}" class="order-item" th:attr="data-order-id=${order.id}">
+        <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+        <div class="order-summary" onclick="toggleDetails(this)">
+          <div class="summary-row">
+            <span><strong>Order №</strong> <span th:text="${order.id}"></span></span>
+            <span><strong>Date:</strong> <span th:text="${#temporals.format(order.createdAt, 'dd.MM.yyyy')}"></span></span>
+            <span><strong>Price:</strong> <span th:text="${order.totalCost != null ? order.totalCost + ' USD' : 'TBD'}"></span></span>
+            <span><strong>Status:</strong> <span th:text="${order.status}" class="status"></span></span>
+          </div>
+        </div>
+        <div class="order-details" style="display:none">
+          <p><strong>Bicycle:</strong> <span th:text="${order.bicycle.brand + ' ' + order.bicycle.model}"></span></p>
+          <p><strong>Payment type:</strong> <span th:text="${order.paymentType} ?: 'Not selected yet'"></span></p>
+          <p><strong>Payment status:</strong> <span th:text="${order.paymentStatus}"></span></p>
+          <p><strong>Repair note:</strong> <span th:text="${order.repairNote} ?: 'N/A'"></span></p>
+
+          <label><strong>Issue:</strong></label>
+          <p th:text="${order.issueDescription}"></p>
+
+          <div class="buttons">
+            <button class="cancel-btn">Cancel</button>
+            <button class="confirm-btn">Confirm</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="confirmModal" class="modal" style="display:none">
+      <div class="modal-content">
+        <p>Are you sure you want to cancel the application?</p>
+        <div class="modal-buttons">
+          <button id="confirmYes">Yes</button>
+          <button id="confirmNo">No</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+<footer class="footer">
+  <p class="copyright">
+    © VELOFIX — All rights reserved
+  </p>
+</footer>
+</body>
+</html>

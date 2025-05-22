@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VeloFix</title>
+  <link rel="stylesheet" href="/css/pc_createnewbid.css">
+  <link rel="icon" href="/images/Logo_Tab.png">
+  <script src="/js/new_order.js" defer></script>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="logo">
+      <a href="/main">
+        <img src="/images/VeloFix_Logo_Blue.png" alt="Logo">
+      </a>
+    </div>
+    <nav class="nav">
+      <a href="/main#about">About us</a>
+      <a href="/main#services">Services</a>
+      <a href="/main#contact">Contacts</a>
+    </nav>
+    <div class="header-right">
+
+      <div class="dropdown"
+           th:if="${sessionUser != null and (sessionUser.role.name() == 'MANAGER' or sessionUser.role.name() == 'MECHANIC' or sessionUser.role.name() == 'DIRECTOR')}">
+        <button class="icon-btn" id="adminBtn">
+          <img src="/images/AdminPanel-icon.png" alt="Admin Panel">
+        </button>
+        <div class="dropdown-content" id="adminDropdown">
+          <a href="/admin/users">User Management</a>
+          <a href="/admin/parts">Part Management</a>
+          <a href="/admin/orders">Order Management</a>
+        </div>
+      </div>
+
+
+      <div class="notification-wrapper">
+        <button class="icon-btn" id="notif-btn">
+          <img src="/images/Notification_icon_blue.png" alt="Notifications">
+        </button>
+        <div class="notification-dropdown" id="notif-dropdown" style="display: none;">
+          <p>Loading notifications...</p>
+        </div>
+      </div>
+
+      <button class="icon-btn">
+        <a href="/signIn" class="icon-btn">
+          <div class="logo">
+            <img src="/images/Account_icon.png">
+          </div>
+        </a>
+      </button>
+
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="form-wrapper">
+    <h1>Personal Cabinet</h1>
+    <div class="form-tabs">
+      <span class="tab active">Create bid</span>
+      <a th:href="@{/order}">
+        <span class="tab">Current orders</span>
+      </a>
+      <a th:href="@{/order/history}">
+        <span class="tab">History</span>
+      </a>
+      <a th:href="@{/personal}">
+        <span class="tab">Personal data</span>
+      </a>
+    </div>
+    <form th:action="@{/create}" th:object="${orderRequestDto}" method="post" class="bid-form">
+      <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+      <div class="form-row">
+        <div class="form-group">
+          <label>Brand</label>
+          <input type="text" th:field="*{brand}" placeholder="Brand" required
+                 oninvalid="this.setCustomValidity('Brand is required')"
+                 oninput="this.setCustomValidity('')"/>
+          <div th:if="${#fields.hasErrors('brand')}" th:errors="*{brand}" class="error-message"></div>
+          <a href="/create/from-existing" class="small-link">Already have bicycle?</a>
+        </div>
+
+        <div class="form-group">
+          <label>Model</label>
+          <select th:field="*{model}" required
+                  oninvalid="this.setCustomValidity('Model is required')"
+                  oninput="this.setCustomValidity('')">
+            <option value="" disabled selected>Select model</option>
+            <option th:each="model : ${bicycleModels}"
+                    th:value="${model}"
+                    th:text="${model}"></option>
+          </select>
+          <div th:if="${#fields.hasErrors('model')}" th:errors="*{model}" class="error-message"></div>
+        </div>
+
+        <div class="form-group">
+          <label>Year</label>
+          <input type="number" th:field="*{year}" placeholder="Year" min="1900" max="2100" required
+                 oninvalid="this.setCustomValidity('Year is required')"
+                 oninput="this.setCustomValidity('')"/>
+          <div th:if="${#fields.hasErrors('year')}" th:errors="*{year}" class="error-message"></div>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Serial Number</label>
+          <input type="text" th:field="*{serialNumber}" placeholder="Serial Number" required
+                 oninvalid="this.setCustomValidity('Serial number is required')"
+                 oninput="this.setCustomValidity('')"/>
+          <div th:if="${#fields.hasErrors('serialNumber')}" th:errors="*{serialNumber}" class="error-message"></div>
+        </div>
+
+        <div class="form-group">
+          <label>Repair Shop Address</label>
+          <select th:field="*{repairShopAddress}" required
+                  oninvalid="this.setCustomValidity('Repair shop address is required')"
+                  oninput="this.setCustomValidity('')">
+            <option value="" disabled selected>Select repair shop</option>
+            <option th:each="shop : ${repairShops}"
+                    th:value="${shop}"
+                    th:text="${shop}"></option>
+          </select>
+          <div th:if="${#fields.hasErrors('repairShopAddress')}" th:errors="*{repairShopAddress}" class="error-message"></div>
+        </div>
+
+        <div class="form-group warranty-checkbox">
+          <label class="custom-checkbox">
+            <input type="checkbox" th:field="*{warrantyRepair}"/>
+            <span class="checkmark"></span>
+            Is warranty repair
+          </label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Issue Description</label>
+        <textarea rows="8" th:field="*{issueDescription}" placeholder="Describe the issue" required
+                  oninvalid="this.setCustomValidity('Issue description is required')"
+                  oninput="this.setCustomValidity('')"></textarea>
+        <div th:if="${#fields.hasErrors('issueDescription')}" th:errors="*{issueDescription}" class="error-message"></div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="cancel-btn">Cancel</button>
+        <button type="submit" class="confirm-btn">Confirm</button>
+      </div>
+    </form>
+
+  </div>
+</main>
+
+
+<footer class="footer">
+  <p class="copyright">
+    © VELOFIX — All rights reserved
+  </p>
+</footer>
+</body>
+</html>

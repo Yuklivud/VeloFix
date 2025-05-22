@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>VeloFix</title>
+    <link rel="stylesheet" href="/css/adminOrders.css">
+    <link rel="icon" href="/images/Logo_Tab.png">
+    <script src="/js/adminOrders.js" defer></script>
+</head>
+<body>
+
+<header>
+    <div class="header-inner">
+        <div class="logo">
+            <a href="/main">
+                <img src="/images/VeloFix_Logo_Blue.png" alt="Logo">
+            </a>
+        </div>
+        <nav class="nav">
+            <a href="/main#about">About us</a>
+            <a href="/main#services">Services</a>
+            <a href="/main#contact">Contacts</a>
+        </nav>
+        <div class="header-right">
+
+            <div class="dropdown"
+                 th:if="${sessionUser != null and (sessionUser.role.name() == 'MANAGER' or sessionUser.role.name() == 'MECHANIC' or sessionUser.role.name() == 'DIRECTOR')}">
+                <button class="icon-btn" id="adminBtn">
+                    <img src="/images/AdminPanel-icon.png" alt="Admin Panel">
+                </button>
+                <div class="dropdown-content" id="adminDropdown">
+                    <a href="/admin/users">User Management</a>
+                    <a href="/admin/parts">Part Management</a>
+                    <a href="/admin/orders">Order Management</a>
+                </div>
+            </div>
+
+            <div class="notification-wrapper">
+                <button class="icon-btn" id="notif-btn">
+                    <img src="/images/Notification_icon_blue.png" alt="Notifications">
+                </button>
+                <div class="notification-dropdown" id="notif-dropdown" style="display: none;">
+                    <p>Loading notifications...</p>
+                </div>
+            </div>
+
+            <button class="icon-btn">
+                <a href="/signIn" class="icon-btn">
+                    <div class="logo">
+                        <img src="/images/Account_icon.png">
+                    </div>
+                </a>
+            </button>
+
+        </div>
+    </div>
+</header>
+<main>
+    <div class="form-wrapper">
+        <h1>Admin Orders Panel</h1>
+
+        <form method="get" th:action="@{/admin/orders}" class="filter-form">
+            <div class="filter-group">
+
+                <input type="text" name="customerFullName" placeholder="Client name" class="input"
+                       th:value="${filter.customerFullName}" />
+
+                <input type="text" name="mechanicFullName" placeholder="Mechanic name" class="input"
+                       th:value="${filter.mechanicFullName}" />
+
+                <input type="text" name="orderId" placeholder="Order ID" class="input"
+                       th:value="${filter.orderId}" />
+
+                <select name="bicycleModel" class="input">
+                    <option value="">Select model</option>
+                    <option th:each="m : ${models}"
+                            th:value="${m.name()}"
+                            th:text="${m.name()}"
+                            th:selected="${filter.bicycleModel != null and filter.bicycleModel.equals(m.name())}">
+                    </option>
+                </select>
+
+                <input type="date" name="createdAt" class="input" th:value="${filter.createdAt}"/>
+
+                <select name="status" class="input">
+                    <option value="">Select status</option>
+                    <option th:each="s : ${statuses}" th:value="${s}" th:text="${s}"
+                            th:selected="${filter.status == s}"></option>
+                </select>
+
+                <select name="paymentStatus" class="input">
+                    <option value="">Select payment status</option>
+                    <option th:each="ps : ${paymentStatuses}" th:value="${ps}" th:text="${ps}"
+                            th:selected="${filter.paymentStatus == ps}"></option>
+                </select>
+
+                <select name="paymentType" class="input">
+                    <option value="">Select payment type</option>
+                    <option th:each="pt : ${paymentTypes}" th:value="${pt}" th:text="${pt}"
+                            th:selected="${filter.paymentType == pt}"></option>
+                </select>
+
+                <button type="submit">Apply Filter</button>
+                <a th:href="@{/admin/orders}" class="reset-btn">Reset Filter</a>
+            </div>
+        </form>
+
+        <div class="orders-list">
+            <div th:each="order : ${orders}" class="order-item" th:attr="data-order-id=${order.id}">
+                <div class="order-summary" onclick="toggleDetails(this)">
+                    <div class="summary-row">
+                        <span><strong>Order №</strong> <span th:text="${order.id}"></span></span>
+                        <span><strong>Date:</strong> <span
+                                th:text="${#temporals.format(order.createdAt, 'dd.MM.yyyy')}"></span></span>
+                        <span><strong>Price:</strong> <span
+                                th:text="${order.totalCost != null ? order.totalCost + ' USD' : 'TBD'}"></span></span>
+                        <span><strong>Status:</strong> <span th:text="${order.status}" class="status"></span></span>
+                    </div>
+                </div>
+
+                <div class="order-details" style="display:none">
+                    <p><strong>Bicycle:</strong> <span
+                            th:text="${order.bicycle.brand + ' ' + order.bicycle.model}"></span></p>
+
+                    <p><strong>Client:</strong>
+                        <span th:text="${order.customer.fullName}"></span>,
+                        <span th:text="${order.customer.phone}"></span>,
+                        <span th:text="${order.customer.email}"></span>
+                    </p>
+
+                    <p><strong>Mechanic:</strong>
+                        <span th:if="${order.mechanic != null}" th:text="${order.mechanic.fullName}"></span>
+                        <span th:if="${order.mechanic == null}">Not assigned</span>
+                    </p>
+
+                    <p><strong>Payment type:</strong> <span th:text="${order.paymentType} ?: 'Not selected yet'"></span>
+                    </p>
+                    <p><strong>Payment status:</strong> <span th:text="${order.paymentStatus}"></span></p>
+                    <p><strong>Repair note:</strong> <span th:text="${order.repairNote} ?: 'N/A'"></span></p>
+
+                    <label><strong>Issue:</strong></label>
+                    <p th:text="${order.issueDescription}"></p>
+
+                    <div th:if="${order.repairParts != null and !order.repairParts.isEmpty()}">
+                        <h4>Parts</h4>
+                        <table>
+                            <thead>
+                            <tr>
+                                <th>Part name</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th>Sum</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="rp : ${order.repairParts}">
+                                <td th:text="${rp.part.name}">Part name</td>
+                                <td>
+                                    <span th:if="${rp.part.price != null}"
+                                          th:text="${#numbers.formatDecimal(rp.part.price, 0, 'COMMA', 2, 'POINT') + ' USD'}"></span>
+                                    <span th:unless="${rp.part.price != null}">N/A</span>
+                                </td>
+                                <td th:text="${rp.quantityUsed}">Qty</td>
+                                <td>
+                                    <span th:if="${rp.part.price != null and rp.quantityUsed != null}"
+                                          th:text="${#numbers.formatDecimal(rp.part.price.doubleValue() * rp.quantityUsed, 0, 'COMMA', 2, 'POINT') + ' USD'}">
+                                    </span>
+                                    <span th:unless="${rp.part.price != null and rp.quantityUsed != null}">N/A</span>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <p><strong>Total:</strong> <span th:text="${order.totalCost != null ? order.totalCost + ' USD' : 'TBD'}"></span></p>
+                    <a th:href="@{'/admin/orders/' + ${order.id} + '/edit'}" class="edit-btn" title="Edit order">
+                        Edit
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+
+<footer class="footer">
+    <p class="copyright">
+        © VELOFIX — All rights reserved
+    </p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VeloFix</title>
+  <link rel="stylesheet" href="/css/pc_createnewbid.css">
+  <link rel="icon" href="/images/Logo_Tab.png">
+  <script src="/js/new_order.js" defer></script>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="logo">
+      <a href="/main">
+        <img src="/images/VeloFix_Logo_Blue.png" alt="Logo">
+      </a>
+    </div>
+    <nav class="nav">
+      <a href="/main#about">About us</a>
+      <a href="/main#services">Services</a>
+      <a href="/main#contact">Contacts</a>
+    </nav>
+    <div class="header-right">
+
+      <div class="dropdown"
+           th:if="${sessionUser != null and (sessionUser.role.name() == 'MANAGER' or sessionUser.role.name() == 'MECHANIC' or sessionUser.role.name() == 'DIRECTOR')}">
+        <button class="icon-btn" id="adminBtn">
+          <img src="/images/AdminPanel-icon.png" alt="Admin Panel">
+        </button>
+        <div class="dropdown-content" id="adminDropdown">
+          <a href="/admin/users">User Management</a>
+          <a href="/admin/parts">Part Management</a>
+          <a href="/admin/orders">Order Management</a>
+        </div>
+      </div>
+
+
+      <div class="notification-wrapper">
+        <button class="icon-btn" id="notif-btn">
+          <img src="/images/Notification_icon_blue.png" alt="Notifications">
+        </button>
+        <div class="notification-dropdown" id="notif-dropdown" style="display: none;">
+          <p>Loading notifications...</p>
+        </div>
+      </div>
+
+      <button class="icon-btn">
+        <a href="/signIn" class="icon-btn">
+          <div class="logo">
+            <img src="/images/Account_icon.png">
+          </div>
+        </a>
+      </button>
+
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="form-wrapper">
+    <h1>Personal Cabinet</h1>
+    <div class="form-tabs">
+      <span class="tab active">Create bid</span>
+      <a th:href="@{/order}">
+        <span class="tab">Current orders</span>
+      </a>
+      <a th:href="@{/order/history}">
+        <span class="tab">History</span>
+      </a>
+      <a th:href="@{/personal}">
+        <span class="tab">Personal data</span>
+      </a>
+    </div>
+
+    <form class="bid-form" th:action="@{/create/from-existing}" method="post" th:object="${orderRequestDto}">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Bicycle</label>
+          <select th:field="*{bicycleId}">
+            <option value="" disabled selected th:if="${#lists.isEmpty(bicycles)}">No bicycles available</option>
+            <option th:each="b : ${bicycles}" th:value="${b.id}"
+                    th:text="${b.brand + ' ' + b.model + ' (' + b.year + ')'}"></option>
+          </select>
+          <a href="/create" class="small-link">Create new bicycle</a>
+        </div>
+
+        <div class="form-group">
+          <label>Address</label>
+          <select th:field="*{repairShopAddress}" required
+                  oninvalid="this.setCustomValidity('Repair shop address is required')"
+                  oninput="this.setCustomValidity('')">
+            <option value="" disabled selected>Select repair shop</option>
+            <option th:each="shop : ${repairShops}"
+                    th:value="${shop}"
+                    th:text="${shop}"></option>
+          </select>
+        </div>
+
+        <div class="form-group warranty-checkbox">
+          <label class="custom-checkbox">
+            <input type="checkbox" th:field="*{warrantyRepair}">
+            <span class="checkmark"></span>
+            Is warranty repair
+          </label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Issue</label>
+        <textarea rows="8" th:field="*{issueDescription}"></textarea>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="cancel-btn" onclick="window.location.href='/'">Cancel</button>
+        <button type="submit" class="confirm-btn">Confirm</button>
+      </div>
+    </form>
+  </div>
+</main>
+
+
+<footer class="footer">
+  <p class="copyright">
+    © VELOFIX — All rights reserved
+  </p>
+</footer>
+</body>
+</html>
