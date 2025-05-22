@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>VeloFix</title>
+    <link rel="stylesheet" href="/css/adminParts.css">
+    <link rel="icon" href="/images/Logo_Tab.png">
+    <script src="/js/adminOrders.js" defer></script>
+</head>
+<body>
+
+<header>
+    <div class="header-inner">
+        <div class="logo">
+            <a href="/main">
+                <img src="/images/VeloFix_Logo_Blue.png" alt="Logo">
+            </a>
+        </div>
+        <nav class="nav">
+            <a href="/main#about">About us</a>
+            <a href="/main#services">Services</a>
+            <a href="/main#contact">Contacts</a>
+        </nav>
+        <div class="header-right">
+
+            <div class="dropdown"
+                 th:if="${sessionUser != null and (sessionUser.role.name() == 'MANAGER' or sessionUser.role.name() == 'MECHANIC' or sessionUser.role.name() == 'DIRECTOR')}">
+                <button class="icon-btn" id="adminBtn">
+                    <img src="/images/AdminPanel-icon.png" alt="Admin Panel">
+                </button>
+                <div class="dropdown-content" id="adminDropdown">
+                    <a href="/admin/users">User Management</a>
+                    <a href="/admin/parts">Part Management</a>
+                    <a href="/admin/orders">Order Management</a>
+                </div>
+            </div>
+
+            <div class="notification-wrapper">
+                <button class="icon-btn" id="notif-btn">
+                    <img src="/images/Notification_icon_blue.png" alt="Notifications">
+                </button>
+                <div class="notification-dropdown" id="notif-dropdown" style="display: none;">
+                    <p>Loading notifications...</p>
+                </div>
+            </div>
+
+            <button class="icon-btn">
+                <a href="/signIn" class="icon-btn">
+                    <div class="logo">
+                        <img src="/images/Account_icon.png">
+                    </div>
+                </a>
+            </button>
+
+        </div>
+    </div>
+</header>
+<main>
+    <div class="form-wrapper">
+        <h1>Parts</h1>
+
+        <form method="get" th:action="@{/admin/parts}" class="filter-form">
+            <div class="filter-group">
+                <input type="text" name="name" placeholder="Name" class="input" th:value="${filterName}" />
+
+                <select name="categoryId" class="input">
+                    <option value="">All categories</option>
+                    <option th:each="category : ${categories}"
+                            th:value="${category.id}"
+                            th:text="${category.name}"
+                            th:selected="${filterCategoryId != null} ? ${category.id.equals(filterCategoryId)} : false">
+                    </option>
+                </select>
+
+                <button type="submit" class="edit-btn">Apply filter</button>
+                <a th:href="@{/admin/parts}" class="reset-btn">Reset</a>
+            </div>
+        </form>
+
+        <a th:href="@{/admin/parts/add}" class="edit-btn" style="margin-bottom: 20px; display: inline-block;">Add New Part</a>
+
+        <div class="parts-list">
+            <div class="part-item" th:each="part : ${parts}">
+                <div class="part-summary">
+                    <div class="summary-row">
+                        <span class="part-name" th:text="${part.name}">Part Name</span>
+                        <span class="part-category" th:text="${part.category.name}">Category</span>
+                        <span class="part-price" th:text="${#numbers.formatDecimal(part.price, 1, 'COMMA', 2, 'POINT')}">Price</span>
+                        <span class="part-stock" th:text="'Qty: ' + ${part.stockQuantity}">Quantity</span>
+                        <span>
+              <a th:href="@{'/admin/parts/' + ${part.id} + '/edit'}" class="edit-btn" style="padding: 4px 10px; font-size: 0.85rem;">Edit</a>
+              <form th:action="@{'/admin/parts/' + ${part.id} + '/delete'}" method="post" style="display:inline" onsubmit="return confirm('Delete this part?');">
+                <button type="submit" class="delete-btn" style="padding: 4px 10px; font-size: 0.85rem; margin-left: 6px; background: #e63946; color: white; border: none; border-radius: 6px; cursor: pointer;">Delete</button>
+              </form>
+            </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+
+
+<footer class="footer">
+    <p class="copyright">
+        © VELOFIX — All rights reserved
+    </p>
+</footer>
+</body>
+</html>

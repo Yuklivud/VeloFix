@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>VeloFix</title>
+    <link rel="stylesheet" href="/css/adminOrders.css">
+    <link rel="icon" href="/images/Logo_Tab.png">
+    <script src="/js/adminOrders.js" defer></script>
+</head>
+<body>
+
+<header>
+    <div class="header-inner">
+        <div class="logo">
+            <a href="/main">
+                <img src="/images/VeloFix_Logo_Blue.png" alt="Logo">
+            </a>
+        </div>
+        <nav class="nav">
+            <a href="/main#about">About us</a>
+            <a href="/main#services">Services</a>
+            <a href="/main#contact">Contacts</a>
+        </nav>
+        <div class="header-right">
+
+            <div class="dropdown"
+                 th:if="${sessionUser != null and (sessionUser.role.name() == 'MANAGER' or sessionUser.role.name() == 'MECHANIC' or sessionUser.role.name() == 'DIRECTOR')}">
+                <button class="icon-btn" id="adminBtn">
+                    <img src="/images/AdminPanel-icon.png" alt="Admin Panel">
+                </button>
+                <div class="dropdown-content" id="adminDropdown">
+                    <a href="/admin/users">User Management</a>
+                    <a href="/admin/parts">Part Management</a>
+                    <a href="/admin/orders">Order Management</a>
+                </div>
+            </div>
+
+            <div class="notification-wrapper">
+                <button class="icon-btn" id="notif-btn">
+                    <img src="/images/Notification_icon_blue.png" alt="Notifications">
+                </button>
+                <div class="notification-dropdown" id="notif-dropdown" style="display: none;">
+                    <p>Loading notifications...</p>
+                </div>
+            </div>
+
+            <button class="icon-btn">
+                <a href="/signIn" class="icon-btn">
+                    <div class="logo">
+                        <img src="/images/Account_icon.png">
+                    </div>
+                </a>
+            </button>
+
+        </div>
+    </div>
+</header>
+<main>
+    <div class="order-edit-form">
+        <form th:action="@{'/admin/orders/' + ${orderForm.orderId} + '/edit'}" method="post" th:object="${orderForm}">
+
+            <div class="field-row">
+                <label>Mechanic:</label>
+                <select th:field="*{mechanicId}">
+                    <option th:each="m : ${mechanics}" th:value="${m.id}" th:text="${m.fullName}"></option>
+                </select>
+            </div>
+
+            <div class="field-row">
+                <label>Payment Type:</label>
+                <select th:field="*{paymentType}">
+                    <option th:each="pt : ${paymentTypes}" th:value="${pt}" th:text="${pt}"></option>
+                </select>
+            </div>
+
+            <div class="field-row">
+                <label>Payment Status:</label>
+                <select th:field="*{paymentStatus}">
+                    <option th:each="ps : ${paymentStatuses}" th:value="${ps}" th:text="${ps}"></option>
+                </select>
+            </div>
+
+            <div class="field-row">
+                <label>Repair Status:</label>
+                <select th:field="*{status}">
+                    <option th:each="s : ${statuses}" th:value="${s}" th:text="${s}"></option>
+                </select>
+            </div>
+
+            <div class="field-row">
+                <label>Repair Note:</label>
+                <textarea th:field="*{repairNote}"></textarea>
+            </div>
+
+            <h3>Repair Parts</h3>
+            <div id="partsContainer">
+                <div th:each="rp, iterStat : *{repairParts}">
+                    <input type="hidden" th:field="*{repairParts[__${iterStat.index}__].partId}" />
+                    <label th:text="${partNameMap[rp.partId]}">Part Name</label>
+                    <input type="number" min="1" th:field="*{repairParts[__${iterStat.index}__].quantityUsed}" />
+                    <button type="button" onclick="removePart(this)">Remove</button>
+                </div>
+            </div>
+
+            <input type="hidden" name="deletedParts" id="deletedParts" />
+
+            <div class="add-part-row">
+                <label>Add Part:</label>
+                <select id="newPartSelect">
+                    <option value="">-- Select Part --</option>
+                    <option th:each="p : ${allParts}" th:value="${p.id}" th:text="${p.name}"></option>
+                </select>
+                <input type="number" id="newPartQty" placeholder="Qty" min="1" />
+                <button type="button" onclick="addPart()">+ Add Part</button>
+            </div>
+
+            <button type="submit">Save</button>
+        </form>
+    </div>
+</main>
+
+
+
+<footer class="footer">
+    <p class="copyright">
+        © VELOFIX — All rights reserved
+    </p>
+</footer>
+</body>
+</html>

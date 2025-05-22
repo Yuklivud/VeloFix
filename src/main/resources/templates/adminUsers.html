@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>VeloFix</title>
+    <link rel="stylesheet" href="/css/adminUser.css">
+    <link rel="icon" href="/images/Logo_Tab.png">
+    <script src="/js/adminOrders.js" defer></script>
+</head>
+<body>
+
+<header>
+    <div class="header-inner">
+        <div class="logo">
+            <a href="/main">
+                <img src="/images/VeloFix_Logo_Blue.png" alt="Logo">
+            </a>
+        </div>
+        <nav class="nav">
+            <a href="/main#about">About us</a>
+            <a href="/main#services">Services</a>
+            <a href="/main#contact">Contacts</a>
+        </nav>
+        <div class="header-right">
+
+            <div class="dropdown"
+                 th:if="${sessionUser != null and (sessionUser.role.name() == 'MANAGER' or sessionUser.role.name() == 'MECHANIC' or sessionUser.role.name() == 'DIRECTOR')}">
+                <button class="icon-btn" id="adminBtn">
+                    <img src="/images/AdminPanel-icon.png" alt="Admin Panel">
+                </button>
+                <div class="dropdown-content" id="adminDropdown">
+                    <a href="/admin/users">User Management</a>
+                    <a href="/admin/parts">Part Management</a>
+                    <a href="/admin/orders">Order Management</a>
+                </div>
+            </div>
+
+            <div class="notification-wrapper">
+                <button class="icon-btn" id="notif-btn">
+                    <img src="/images/Notification_icon_blue.png" alt="Notifications">
+                </button>
+                <div class="notification-dropdown" id="notif-dropdown" style="display: none;">
+                    <p>Loading notifications...</p>
+                </div>
+            </div>
+
+            <button class="icon-btn">
+                <a href="/signIn" class="icon-btn">
+                    <div class="logo">
+                        <img src="/images/Account_icon.png">
+                    </div>
+                </a>
+            </button>
+
+        </div>
+    </div>
+</header>
+<main>
+    <div class="form-wrapper">
+        <h1>Admin Users Panel</h1>
+
+        <form method="get" th:action="@{/admin/users}" class="filter-form">
+            <div class="filter-group">
+
+                <input type="text" name="fullName" placeholder="User name" class="input"
+                       th:value="${filter.fullName}" />
+
+                <select name="role" class="input">
+                    <option value="">Select role</option>
+                    <option th:each="role : ${roles}"
+                            th:value="${role}"
+                            th:text="${role}"
+                            th:selected="${filter.role == role}">
+                    </option>
+                </select>
+
+                <button type="submit">Apply Filter</button>
+                <a th:href="@{/admin/users}" class="reset-btn">Reset Filter</a>
+            </div>
+        </form>
+
+        <div class="users-list">
+            <div th:each="user : ${users}" class="user-item" th:attr="data-user-id=${user.id}">
+                <div class="user-summary" onclick="toggleDetails(this)">
+                    <div class="summary-row">
+                        <span><strong>ID:</strong> <span th:text="${user.id}"></span></span>
+                        <span><strong>Name:</strong> <span th:text="${user.fullName}"></span></span>
+                        <span><strong>Email:</strong> <span th:text="${user.email}"></span></span>
+                        <span><strong>Role:</strong> <span th:text="${user.role}"></span></span>
+                        <span><strong>Status:</strong> <span th:text="${user.status}"></span></span>
+                    </div>
+                </div>
+                <div class="user-details" style="display:none; margin-top: 10px;"
+                     th:if="${currentUserRole != mechanicRole}">
+                    <form th:action="@{'/admin/users/' + ${user.id} + '/edit'}" method="post">
+
+                        <label>
+                            Role:
+                            <select name="role" class="input"
+                                    th:disabled="${currentUserRole == managerRole
+                            and (user.role == managerRole or user.role == directorRole)}">
+                                <option th:each="r : ${roles}"
+                                        th:value="${r}"
+                                        th:text="${r}"
+                                        th:selected="${user.role == r}">
+                                </option>
+                            </select>
+                        </label>
+
+                        <label>
+                            Status:
+                            <select name="status" class="input"
+                                    th:disabled="${currentUserRole == managerRole
+                            and (user.role == managerRole or user.role == directorRole)}">
+                                <option th:each="s : ${statuses}"
+                                        th:value="${s}"
+                                        th:text="${s}"
+                                        th:selected="${user.status == s}">
+                                </option>
+                            </select>
+                        </label>
+
+                        <button type="submit"
+                                th:disabled="${currentUserRole == managerRole
+                          and (user.role == managerRole or user.role == directorRole)}">Save</button>
+                    </form>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer class="footer">
+    <p class="copyright">
+        © VELOFIX — All rights reserved
+    </p>
+</footer>
+</body>
+</html>

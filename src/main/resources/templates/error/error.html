@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>404</title>
+    <link rel="stylesheet" href="/css/404.css">
+    <script src="/js/error.js" defer></script>
+</head>
+<body>
+
+<header>
+    <div class="header-inner">
+        <div class="logo">
+            <a href="/main">
+                <img src="/images/VeloFix_Logo_Blue.png" alt="Logo">
+            </a>
+        </div>
+        <nav class="nav">
+            <a href="/main#about">About us</a>
+            <a href="/main#services">Services</a>
+            <a href="/main#contact">Contacts</a>
+        </nav>
+        <div class="header-right">
+
+            <div class="dropdown"
+                 th:if="${sessionUser != null and (sessionUser.role.name() == 'MANAGER' or sessionUser.role.name() == 'MECHANIC' or sessionUser.role.name() == 'DIRECTOR')}">
+                <button class="icon-btn" id="adminBtn">
+                    <img src="/images/AdminPanel-icon.png" alt="Admin Panel">
+                </button>
+                <div class="dropdown-content" id="adminDropdown">
+                    <a href="/admin/users">User Management</a>
+                    <a href="/admin/parts">Part Management</a>
+                    <a href="/admin/orders">Order Management</a>
+                </div>
+            </div>
+
+
+            <div class="notification-wrapper">
+                <button class="icon-btn" id="notif-btn">
+                    <img src="/images/Notification_icon_blue.png" alt="Notifications">
+                </button>
+                <div class="notification-dropdown" id="notif-dropdown" style="display: none;">
+                    <p>Loading notifications...</p>
+                </div>
+            </div>
+
+            <button class="icon-btn">
+                <a href="/signIn" class="icon-btn">
+                    <div class="logo">
+                        <img src="/images/Account_icon.png">
+                    </div>
+                </a>
+            </button>
+
+        </div>
+    </div>
+</header>
+
+
+<main class="main-content">
+    <div class="container">
+        <div class="error-content">
+            <h1>404</h1>
+            <p>The page does not exist or has not been created yet</p>
+            <a href="/" class="back-button">Back to main page</a>
+        </div>
+    </div>
+</main>
+<footer class="footer">
+    <p class="copyright">
+        © VELOFIX — All rights reserved
+    </p>
+</footer>
+</body>
+</html>

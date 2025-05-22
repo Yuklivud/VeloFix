@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>VeloFix</title>
+    <script src = "/js/main-script.js" defer> </script>
+    <link rel="stylesheet" href="/css/main-style.css">
+</head>
+<body>
+
+<header>
+    <div class="header-inner">
+        <div class="logo">
+            <a href="/main">
+                <img src="/images/VeloFix_Logo_Blue.png" alt="Logo">
+            </a>
+        </div>
+        <nav class="nav">
+            <a href="#about">About us</a>
+            <a href="#services">Services</a>
+            <a href="#contact">Contacts</a>
+        </nav>
+        <div class="header-right">
+
+            <div class="dropdown" th:if="${sessionUser != null and (sessionUser.role.name() == 'MANAGER' or sessionUser.role.name() == 'MECHANIC' or sessionUser.role.name() == 'DIRECTOR')}">
+                <button class="icon-btn" id="adminBtn">
+                    <img src="/images/AdminPanel-icon.png" alt="Admin Panel">
+                </button>
+                <div class="dropdown-content" id="adminDropdown">
+                    <a href="/admin/users">User Management</a>
+                    <a href="/admin/parts">Part Management</a>
+                    <a href="/admin/orders">Order Management</a>
+                </div>
+            </div>
+
+
+            <div class="notification-wrapper">
+                <button class="icon-btn" id="notif-btn">
+                    <img src="/images/Notification_icon_blue.png" alt="Notifications">
+                </button>
+                <div class="notification-dropdown" id="notif-dropdown" style="display: none;">
+                    <p>Loading notifications...</p>
+                </div>
+            </div>
+
+            <button class="icon-btn">
+                <a href="/signIn" class="icon-btn">
+                    <div class="logo">
+                        <img src="/images/Account_icon.png">
+                    </div>
+                </a>
+            </button>
+
+        </div>
+    </div>
+</header>
+
+
+<main>
+    <div class="main-banner">
+        <img src="/images/Main_page_background.png" alt="Bicycle" class="banner-image">
+        <div class="banner-text">
+            <h1>We fix, you ride</h1>
+        </div>
+    </div>
+
+    <section class="info-section">
+
+        <section id="about">
+            <div class="info-block">
+                <h3>About Us</h3>
+                <p>
+                    Welcome to VeloFIX – your trusted bicycle service center! We specialize in high-quality warranty
+                    repairs
+                    for bicycles, ensuring that your ride stays in top condition for years to come. But we don’t stop
+                    there!
+                    We also offer paid repair and maintenance services, helping cyclists keep their bikes in perfect
+                    shape
+                    even beyond the warranty period.<br><br>
+
+                    Our team of experienced mechanics is dedicated to diagnosing and fixing all types of issues, from
+                    minor
+                    adjustments to major overhauls. Whether you need a quick tune-up, brake adjustments, wheel truing,
+                    or a
+                    complete drivetrain replacement, we've got you covered.<br><br>
+
+                    At VeloFIX, we value quality, transparency, and customer satisfaction. We use only top-grade spare
+                    parts
+                    and the latest repair techniques to ensure your bike runs smoothly and safely. Whether you're a
+                    professional cyclist or a casual rider, we’re here to provide the best service possible.
+                </p>
+            </div>
+        </section>
+
+        <section id="services">
+            <div class="info-block">
+                <h3>Services</h3>
+                <p>At VeloFIX, we offer a full range of bicycle repair and maintenance services to keep your bike in
+                    perfect
+                    condition. Whether you need a warranty repair or a paid service, our team of skilled mechanics is
+                    ready
+                    to help.</p>
+            </div>
+        </section>
+
+        <section id="warranty">
+            <div class="warranty-section">
+                <div class="warranty-card">
+                    <h4>Warranty Repairs</h4>
+                    <p>If your bike is still under warranty, we provide free diagnostics and repairs for manufacturer
+                        defects. Our specialists carefully inspect your bike, replace faulty parts, and ensure
+                        everything
+                        works as intended.</p>
+                </div>
+                <div class="warranty-card">
+                    <h4>Paid Repair & Maintenance</h4>
+                    <p>For bicycles outside the warranty period or for issues not covered by the warranty, we offer
+                        professional repair and maintenance services to ensure your bike performs at its best.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact">
+            <div class="info-block">
+                <h3>Contact Us</h3>
+                <p>
+                    Have questions or need a bike repair? Get in touch with us! Whether you’re looking for warranty
+                    service,
+                    paid maintenance, or just some expert advice, we’re here to help. Visit our workshop, give us a
+                    call, or
+                    drop us an email—we’ll make sure your bike gets the best care possible.
+                </p>
+                <p>
+                    <img src="/images/map.png"> Address: 123 Bike Lane, Cycling City, 56789<br>
+                    <img src="/images/phone.png"> Phone: +1 (234) 567-8901<br>
+                    <img src="/images/email.png"> Email: support@velofix.com<br>
+                    <img src="/images/time.png"> Working Hours: Mon-Sat: 9:00 AM – 7:00 PM, Sun: Closed
+                </p>
+            </div>
+        </section>
+
+    </section>
+</main>
+
+<footer class="footer">
+    <p class="copyright">
+        © VELOFIX — All rights reserved
+    </p>
+</footer>
+
+</body>
+</html>

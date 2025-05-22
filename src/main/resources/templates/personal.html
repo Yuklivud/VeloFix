@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VeloFix</title>
+  <link rel="stylesheet" href="/css/personal.css">
+  <link rel="icon" href="/images/Logo_Tab.png">
+  <script src = "/js/personal.js" defer> </script>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="logo">
+      <a href="/main">
+        <img src="/images/VeloFix_Logo_Blue.png" alt="Logo">
+      </a>
+    </div>
+    <nav class="nav">
+      <a href="/main#about">About us</a>
+      <a href="/main#services">Services</a>
+      <a href="/main#contact">Contacts</a>
+    </nav>
+    <div class="header-right">
+
+      <div class="dropdown"
+           th:if="${sessionUser != null and (sessionUser.role.name() == 'MANAGER' or sessionUser.role.name() == 'MECHANIC' or sessionUser.role.name() == 'DIRECTOR')}">
+        <button class="icon-btn" id="adminBtn">
+          <img src="/images/AdminPanel-icon.png" alt="Admin Panel">
+        </button>
+        <div class="dropdown-content" id="adminDropdown">
+          <a href="/admin/users">User Management</a>
+          <a href="/admin/parts">Part Management</a>
+          <a href="/admin/orders">Order Management</a>
+        </div>
+      </div>
+
+
+      <div class="notification-wrapper">
+        <button class="icon-btn" id="notif-btn">
+          <img src="/images/Notification_icon_blue.png" alt="Notifications">
+        </button>
+        <div class="notification-dropdown" id="notif-dropdown" style="display: none;">
+          <p>Loading notifications...</p>
+        </div>
+      </div>
+
+      <button class="icon-btn">
+        <a href="/signIn" class="icon-btn">
+          <div class="logo">
+            <img src="/images/Account_icon.png">
+          </div>
+        </a>
+      </button>
+
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="form-wrapper">
+    <h1>Personal Cabinet</h1>
+    <div class="form-tabs">
+      <a th:href="@{/create}">
+        <span class="tab">Create bid</span>
+      </a>
+      <a th:href="@{/order}">
+        <span class="tab">Current orders</span>
+      </a>
+      <a th:href="@{/order/history}">
+        <span class="tab">History</span>
+      </a>
+      <a th:href="@{/personal}">
+        <span class="tab active">Personal data</span>
+      </a>
+    </div>
+
+    <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
+      <span th:text="${success}">Saved successfully</span>
+      <button type="button" class="btn-close" aria-label="Close">&times;</button>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+      <span th:text="${error}">Validation error</span>
+      <button type="button" class="btn-close" aria-label="Close">&times;</button>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    <form th:action="@{/personal}" th:object="${userNameDto}" method="post">
+      <div class="form-group">
+        <label for="lastName">Last name:</label>
+        <input type="text" th:field="*{lastName}" id="lastName"
+               required oninvalid="this.setCustomValidity('Last name is required')"
+               oninput="this.setCustomValidity('')" />
+        <div th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" class="error"></div>
+      </div>
+
+      <div class="form-group">
+        <label for="firstName">First name:</label>
+        <input type="text" th:field="*{firstName}" id="firstName"
+               required oninvalid="this.setCustomValidity('First name is required')"
+               oninput="this.setCustomValidity('')" />
+        <div th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" class="error"></div >
+      </div>
+
+      <div class="form-group">
+        <label for="middleName">Middle name:</label>
+        <input type="text" th:field="*{middleName}" id="middleName" />
+        <div th:if="${#fields.hasErrors('middleName')}" th:errors="*{middleName}" class="error"></div>
+      </div>
+
+      <div class="form-group">
+        <label for="phone">Phone:</label>
+        <input type="tel" th:field="*{phone}" id="phone"
+               required oninvalid="this.setCustomValidity('Phone is required')"
+               oninput="this.setCustomValidity('')" />
+        <div th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}" class="error"></div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password:</label>
+        <input type="password" th:field="*{password}" id="password"
+               oninvalid="this.setCustomValidity('Password is required (min 6 characters)')"
+               oninput="this.setCustomValidity('')" />
+        <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="error"></div>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Save</button>
+    </form>
+
+
+
+    <form th:action="@{/logout}" method="post">
+      <button class="logout" type="submit">Logout</button>
+    </form>
+  </div>
+</main>
+<footer class="footer">
+  <p class="copyright">
+    © VELOFIX — All rights reserved
+  </p>
+</footer>
+</body>
+</html>
