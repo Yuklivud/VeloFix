@@ -22,6 +22,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 });
+
 const deletedParts = new Set();
 
 function removePart(button) {
