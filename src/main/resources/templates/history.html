@@ -109,20 +109,13 @@
               </tr>
               </thead>
               <tbody>
-              <tr th:each="rp : ${order.repairParts}">
-                <td th:text="${rp.part.name}">Part name</td>
-                <td>
-        <span th:if="${rp.part != null and rp.part.price != null}"
-              th:text="${#numbers.formatDecimal(rp.part.price, 0, 'COMMA', 2, 'POINT') + ' USD'}"></span>
-                  <span th:unless="${rp.part != null and rp.part.price != null}">N/A</span>
-                </td>
+              <tr th:each="rp : ${order.repairPartsDto}">
+                <td th:text="${rp.partName}">Part name</td>
+                <td th:text="${#numbers.formatDecimal(rp.partPrice, 0, 'COMMA', 2, 'POINT') + ' USD'}">Price</td>
                 <td th:text="${rp.quantityUsed}">Qty</td>
-                <td>
-        <span th:if="${rp.part != null and rp.part.price != null and rp.quantityUsed != null}"
-              th:text="${#numbers.formatDecimal(rp.part.price.multiply(T(java.math.BigDecimal).valueOf(rp.quantityUsed)), 0, 'COMMA', 2, 'POINT') + ' USD'}"></span>
-                  <span th:unless="${rp.part != null and rp.part.price != null and rp.quantityUsed != null}">N/A</span>
-                </td>
+                <td th:text="${#numbers.formatDecimal(rp.sum, 0, 'COMMA', 2, 'POINT') + ' USD'}">Sum</td>
               </tr>
+
               </tbody>
             </table>
 

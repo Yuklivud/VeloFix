@@ -1,6 +1,7 @@
 package velofix.model.entity;
 
 import jakarta.persistence.*;
+import velofix.dto.RepairPartDto;
 import velofix.model.enums.PaymentStatus;
 import velofix.model.enums.PaymentType;
 import velofix.model.enums.RepairStatus;
@@ -60,6 +61,17 @@ public class Order {
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<RepairPart> repairParts;
+
+    @Transient
+    private List<RepairPartDto> repairPartsDto;
+
+    public List<RepairPartDto> getRepairPartsDto() {
+        return repairPartsDto;
+    }
+
+    public void setRepairPartsDto(List<RepairPartDto> repairPartsDto) {
+        this.repairPartsDto = repairPartsDto;
+    }
 
     public List<RepairPart> getRepairParts() {
         return repairParts;

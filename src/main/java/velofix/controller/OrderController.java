@@ -12,10 +12,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import velofix.dto.ExistingBicycleOrderRequestDto;
 import velofix.dto.OrderRequestDto;
-import velofix.model.entity.Bicycle;
-import velofix.model.entity.Notification;
-import velofix.model.entity.Order;
-import velofix.model.entity.User;
+import velofix.dto.RepairPartDto;
+import velofix.model.entity.*;
 import velofix.model.enums.BicycleModel;
 import velofix.model.enums.PaymentStatus;
 import velofix.model.enums.RepairStatus;
@@ -30,6 +28,7 @@ import jakarta.servlet.http.HttpServletRequest;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -91,8 +90,26 @@ public class OrderController {
                 RepairStatus.REJECTED
         );
 
+
         List<Order> orders = orderRepository.findByCustomerIdAndStatusInWithParts(customerId, statuses);
+
+
+        for (Order order : orders) {
+            List<RepairPartDto> dtos = new ArrayList<>();
+            for (RepairPart rp : order.getRepairParts()) {
+                RepairPartDto dto = new RepairPartDto();
+                dto.setPartId(rp.getPart().getId());
+                dto.setQuantityUsed(rp.getQuantityUsed());
+                dto.setPartName(rp.getPart().getName());
+                dto.setPartPrice(rp.getPart().getPrice());
+                dto.calculateSum();
+                dtos.add(dto);
+            }
+            order.setRepairPartsDto(dtos);
+        }
+
         model.addAttribute("orders", orders);
+
         return "history";
     }
 
