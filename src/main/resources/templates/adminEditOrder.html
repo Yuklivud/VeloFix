@@ -60,7 +60,7 @@
 <main>
     <div class="order-edit-form">
         <form th:action="@{'/admin/orders/' + ${orderForm.orderId} + '/edit'}" method="post" th:object="${orderForm}">
-
+            <input type="hidden" th:field="*{orderId}" />
             <div class="field-row">
                 <label>Mechanic:</label>
                 <select th:field="*{mechanicId}">
