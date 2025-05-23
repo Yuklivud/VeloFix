@@ -62,7 +62,6 @@ function addPart() {
     const partsContainer = document.getElementById('partsContainer');
     const index = partsContainer.children.length;
 
-    // Создаем div с полями для новой запчасти
     const div = document.createElement('div');
 
     div.innerHTML = `
@@ -74,7 +73,6 @@ function addPart() {
 
     partsContainer.appendChild(div);
 
-    // Сбрасываем выбор
     select.value = '';
     qtyInput.value = '';
 }

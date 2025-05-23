@@ -16,7 +16,6 @@ function addCategory() {
         return;
     }
 
-    // Создаём новую опцию и выбираем её
     const newOption = document.createElement('option');
     newOption.value = 'new_' + newName.toLowerCase().replace(/\s+/g, '_');
     newOption.text = newName;

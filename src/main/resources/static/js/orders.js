@@ -47,13 +47,13 @@ document.getElementById('confirmYes').addEventListener('click', () => {
             if (res.ok) {
                 cancelOrderElement.remove();
             } else {
-                console.error('Ошибка при отмене заказа:', res.status);
-                alert('Ошибка при отмене заказа');
+                console.error('Error:', res.status);
+                alert('Error');
             }
         })
         .catch(err => {
             console.error('Fetch error:', err);
-            alert('Ошибка сети');
+            alert('Network error');
         })
         .finally(() => {
             document.getElementById('confirmModal').style.display = 'none';
