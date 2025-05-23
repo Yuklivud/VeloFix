@@ -29,7 +29,7 @@ public class SecurityConfig {
                 .csrf(Customizer.withDefaults())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/admin/**").hasAnyRole("MECHANIC", "MANAGER", "DIRECTOR")
-                        .requestMatchers("/create", "/order").authenticated()
+                        .requestMatchers("/create", "/order", "order/history","personal").authenticated()
                         .anyRequest().permitAll()
                 )
                 .formLogin(form -> form
