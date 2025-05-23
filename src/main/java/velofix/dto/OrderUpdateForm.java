@@ -4,6 +4,7 @@ import velofix.model.enums.PaymentStatus;
 import velofix.model.enums.PaymentType;
 import velofix.model.enums.RepairStatus;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -15,7 +16,7 @@ public class OrderUpdateForm {
     private RepairStatus status;
     private String repairNote;
 
-    private List<RepairPartDto> repairParts;
+    private List<RepairPartDto> repairParts = new ArrayList<>();
 
     public List<RepairPartDto> getRepairParts() {
         return repairParts;

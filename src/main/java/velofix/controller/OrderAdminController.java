@@ -128,11 +128,14 @@ public class OrderAdminController {
 
         Set<UUID> deletedPartIds = new HashSet<>();
         if (deletedPartsRaw != null && !deletedPartsRaw.trim().isEmpty()) {
-            deletedPartIds = Arrays.stream(deletedPartsRaw.split(","))
-                    .map(String::trim)
-                    .filter(s -> !s.isEmpty())
-                    .map(UUID::fromString)
-                    .collect(Collectors.toSet());
+            for (String partIdStr : deletedPartsRaw.split(",")) {
+                try {
+                    UUID id = UUID.fromString(partIdStr.trim());
+                    deletedPartIds.add(id);
+                } catch (IllegalArgumentException e) {
+                    System.err.println("Invalid UUID: " + partIdStr);
+                }
+            }
         }
 
         if (!deletedPartIds.isEmpty()) {
