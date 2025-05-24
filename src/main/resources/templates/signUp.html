@@ -17,9 +17,9 @@
       </a>
     </div>
     <nav class="nav">
-      <a href="/main#about">About us</a>
-      <a href="/main#services">Services</a>
-      <a href="/main#contact">Contacts</a>
+      <a href="/main#about">Про нас</a>
+      <a href="/main#services">Послуги</a>
+      <a href="/main#contact">Контакти</a>
     </nav>
     <div class="header-right">
       <div class="notification-wrapper">
@@ -48,18 +48,18 @@
     <div class="auth-box">
       <div class="auth-tabs">
         <a th:href="@{/signIn}">
-          <span class="tab inactive">Sign in</span>
+          <span class="tab inactive">Вхід</span>
         </a>
-        <span class="tab active">Sign up</span>
+        <span class="tab active">Реєстрація</span>
       </div>
       <form class="signup-form" th:action="@{/signup}" method="post" th:object="${userDto}" novalidate>
 
-        <input type="text" name="fullname" placeholder="Fullname" th:field="*{fullname}"
+        <input type="text" name="fullname" placeholder="Ім'я" th:field="*{fullname}"
                required oninvalid="this.setCustomValidity('Please enter your full name')"
                oninput="this.setCustomValidity('')">
         <div th:if="${#fields.hasErrors('fullname')}" th:errors="*{fullname}" class="error-message"></div>
 
-        <input type="tel" name="phone" placeholder="Phone number" th:field="*{phone}"
+        <input type="tel" name="phone" placeholder="Номер телефону" th:field="*{phone}"
                required oninvalid="this.setCustomValidity('Please enter a valid phone number')"
                oninput="this.setCustomValidity('')">
         <div th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}" class="error-message"></div>
@@ -70,7 +70,7 @@
         <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="error-message"></div>
 
         <div class="password-field">
-          <input type="password" id="passwordInput" name="password" placeholder="Password" th:field="*{password}"
+          <input type="password" id="passwordInput" name="password" placeholder="Пароль" th:field="*{password}"
                  required oninvalid="this.setCustomValidity('Password must be at least 6 characters')"
                  oninput="this.setCustomValidity('')">
           <img src="/images/hide.png" alt="Toggle" class="eye-icon" id="togglePassword">
@@ -80,11 +80,11 @@
         <label class="consent">
           <input type="checkbox" required oninvalid="this.setCustomValidity('You must agree to proceed')"
                  oninput="this.setCustomValidity('')">
-          Consent to the processing of personal data
+          Згода на обробку персональних даних
         </label>
 
-        <button type="submit" class="submit-btn">Sign up!</button>
-        <p class="signin-link">Already have account? <a href="/account">Sign in!</a></p>
+        <button type="submit" class="submit-btn">Зареєструватися</button>
+        <p class="signin-link">Вже маєте аккаунт? <a href="/account">Вхід!</a></p>
       </form>
 
     </div>

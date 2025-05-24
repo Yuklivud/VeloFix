@@ -19,9 +19,9 @@
             </a>
         </div>
         <nav class="nav">
-            <a href="/main#about">About us</a>
-            <a href="/main#services">Services</a>
-            <a href="/main#contact">Contacts</a>
+            <a href="/main#about">Про нас</a>
+            <a href="/main#services">Послуги</a>
+            <a href="/main#contact">Контакти</a>
         </nav>
         <div class="header-right">
 
@@ -59,22 +59,22 @@
 </header>
 <main>
     <div class="form-wrapper">
-        <h1>Admin Orders Panel</h1>
+        <h1>Панель керування замовленнями</h1>
 
         <form method="get" th:action="@{/admin/orders}" class="filter-form">
             <div class="filter-group">
 
-                <input type="text" name="customerFullName" placeholder="Client name" class="input"
+                <input type="text" name="customerFullName" placeholder="ПІБ клієнта" class="input"
                        th:value="${filter.customerFullName}" />
 
-                <input type="text" name="mechanicFullName" placeholder="Mechanic name" class="input"
+                <input type="text" name="mechanicFullName" placeholder="ПІБ механіка" class="input"
                        th:value="${filter.mechanicFullName}" />
 
-                <input type="text" name="orderId" placeholder="Order ID" class="input"
+                <input type="text" name="orderId" placeholder="Номер замовлення" class="input"
                        th:value="${filter.orderId}" />
 
                 <select name="bicycleModel" class="input">
-                    <option value="">Select model</option>
+                    <option value="">Виберіть модель</option>
                     <option th:each="m : ${models}"
                             th:value="${m.name()}"
                             th:text="${m.name()}"
@@ -85,25 +85,25 @@
                 <input type="date" name="createdAt" class="input" th:value="${filter.createdAt}"/>
 
                 <select name="status" class="input">
-                    <option value="">Select status</option>
+                    <option value="">Виберіть статус</option>
                     <option th:each="s : ${statuses}" th:value="${s}" th:text="${s}"
                             th:selected="${filter.status == s}"></option>
                 </select>
 
                 <select name="paymentStatus" class="input">
-                    <option value="">Select payment status</option>
+                    <option value="">Виберіть статус оплати</option>
                     <option th:each="ps : ${paymentStatuses}" th:value="${ps}" th:text="${ps}"
                             th:selected="${filter.paymentStatus == ps}"></option>
                 </select>
 
                 <select name="paymentType" class="input">
-                    <option value="">Select payment type</option>
+                    <option value="">Виберіть тип оплати</option>
                     <option th:each="pt : ${paymentTypes}" th:value="${pt}" th:text="${pt}"
                             th:selected="${filter.paymentType == pt}"></option>
                 </select>
 
-                <button type="submit">Apply Filter</button>
-                <a th:href="@{/admin/orders}" class="reset-btn">Reset Filter</a>
+                <button type="submit">Застосувати фільтр</button>
+                <a th:href="@{/admin/orders}" class="reset-btn">Скинути</a>
             </div>
         </form>
 
@@ -111,52 +111,52 @@
             <div th:each="order : ${orders}" class="order-item" th:attr="data-order-id=${order.id}">
                 <div class="order-summary" onclick="toggleDetails(this)">
                     <div class="summary-row">
-                        <span><strong>Order №</strong> <span th:text="${order.id}"></span></span>
-                        <span><strong>Date:</strong> <span
+                        <span><strong>Замовлення №</strong> <span th:text="${order.id}"></span></span>
+                        <span><strong>Дата:</strong> <span
                                 th:text="${#temporals.format(order.createdAt, 'dd.MM.yyyy')}"></span></span>
-                        <span><strong>Price:</strong> <span
+                        <span><strong>Ціна:</strong> <span
                                 th:text="${order.totalCost != null ? order.totalCost + ' USD' : 'TBD'}"></span></span>
-                        <span><strong>Status:</strong> <span th:text="${order.status}" class="status"></span></span>
+                        <span><strong>Статус:</strong> <span th:text="${order.status}" class="status"></span></span>
                     </div>
                 </div>
 
                 <div class="order-details" style="display:none">
-                    <p><strong>Bicycle:</strong> <span
+                    <p><strong>Велосипед:</strong> <span
                             th:text="${order.bicycle.brand + ' ' + order.bicycle.model}"></span></p>
 
-                    <p><strong>Client:</strong>
+                    <p><strong>Клієнт:</strong>
                         <span th:text="${order.customer.fullName}"></span>,
                         <span th:text="${order.customer.phone}"></span>,
                         <span th:text="${order.customer.email}"></span>
                     </p>
 
-                    <p><strong>Mechanic:</strong>
+                    <p><strong>Механік:</strong>
                         <span th:if="${order.mechanic != null}" th:text="${order.mechanic.fullName}"></span>
                         <span th:if="${order.mechanic == null}">Not assigned</span>
                     </p>
 
-                    <p><strong>Payment type:</strong> <span th:text="${order.paymentType} ?: 'Not selected yet'"></span>
+                    <p><strong>Тип оплати:</strong> <span th:text="${order.paymentType} ?: 'Not selected yet'"></span>
                     </p>
-                    <p><strong>Payment status:</strong> <span th:text="${order.paymentStatus}"></span></p>
-                    <p><strong>Repair note:</strong> <span th:text="${order.repairNote} ?: 'N/A'"></span></p>
+                    <p><strong>Статус оплати:</strong> <span th:text="${order.paymentStatus}"></span></p>
+                    <p><strong>Нотатки ремонту:</strong> <span th:text="${order.repairNote} ?: 'N/A'"></span></p>
 
-                    <label><strong>Issue:</strong></label>
+                    <label><strong>Проблема:</strong></label>
                     <p th:text="${order.issueDescription}"></p>
 
                     <div th:if="${order.repairParts != null and !order.repairParts.isEmpty()}">
-                        <h4>Parts</h4>
+                        <h4>Запчастини</h4>
                         <table>
                             <thead>
                             <tr>
-                                <th>Part name</th>
-                                <th>Price</th>
-                                <th>Quantity</th>
-                                <th>Sum</th>
+                                <th>Запчастина</th>
+                                <th>Ціна</th>
+                                <th>Кількість</th>
+                                <th>Сума</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr th:each="rp : ${order.repairParts}">
-                                <td th:text="${rp.part.name}">Part name</td>
+                                <td th:text="${rp.part.name}">Назва запчастини</td>
                                 <td>
                                     <span th:if="${rp.part.price != null}"
                                           th:text="${#numbers.formatDecimal(rp.part.price, 0, 'COMMA', 2, 'POINT') + ' USD'}"></span>
@@ -174,9 +174,9 @@
                         </table>
                     </div>
 
-                    <p><strong>Total:</strong> <span th:text="${order.totalCost != null ? order.totalCost + ' USD' : 'TBD'}"></span></p>
+                    <p><strong>Сума:</strong> <span th:text="${order.totalCost != null ? order.totalCost + ' USD' : 'TBD'}"></span></p>
                     <a th:href="@{'/admin/orders/' + ${order.id} + '/edit'}" class="edit-btn" title="Edit order">
-                        Edit
+                        Редагувати
                     </a>
                 </div>
             </div>

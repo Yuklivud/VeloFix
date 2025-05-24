@@ -19,9 +19,9 @@
             </a>
         </div>
         <nav class="nav">
-            <a href="/main#about">About us</a>
-            <a href="/main#services">Services</a>
-            <a href="/main#contact">Contacts</a>
+            <a href="/main#about">Про нас</a>
+            <a href="/main#services">Послуги</a>
+            <a href="/main#contact">Контакти</a>
         </nav>
         <div class="header-right">
 
@@ -62,61 +62,61 @@
         <form th:action="@{'/admin/orders/' + ${orderForm.orderId} + '/edit'}" method="post" th:object="${orderForm}">
             <input type="hidden" th:field="*{orderId}" />
             <div class="field-row">
-                <label>Mechanic:</label>
+                <label>Механік:</label>
                 <select th:field="*{mechanicId}">
                     <option th:each="m : ${mechanics}" th:value="${m.id}" th:text="${m.fullName}"></option>
                 </select>
             </div>
 
             <div class="field-row">
-                <label>Payment Type:</label>
+                <label>Тип оплати:</label>
                 <select th:field="*{paymentType}">
                     <option th:each="pt : ${paymentTypes}" th:value="${pt}" th:text="${pt}"></option>
                 </select>
             </div>
 
             <div class="field-row">
-                <label>Payment Status:</label>
+                <label>Статус оплати:</label>
                 <select th:field="*{paymentStatus}">
                     <option th:each="ps : ${paymentStatuses}" th:value="${ps}" th:text="${ps}"></option>
                 </select>
             </div>
 
             <div class="field-row">
-                <label>Repair Status:</label>
+                <label>Статус:</label>
                 <select th:field="*{status}">
                     <option th:each="s : ${statuses}" th:value="${s}" th:text="${s}"></option>
                 </select>
             </div>
 
             <div class="field-row">
-                <label>Repair Note:</label>
+                <label>Нотатки ремонту:</label>
                 <textarea th:field="*{repairNote}"></textarea>
             </div>
 
-            <h3>Repair Parts</h3>
+            <h3>Запчастини</h3>
             <div id="partsContainer">
                 <div th:each="rp, iterStat : *{repairParts}">
                     <input type="hidden" th:field="*{repairParts[__${iterStat.index}__].partId}" />
-                    <label th:text="${partNameMap[rp.partId]}">Part Name</label>
+                    <label th:text="${partNameMap[rp.partId]}">Запчастина</label>
                     <input type="number" min="1" th:field="*{repairParts[__${iterStat.index}__].quantityUsed}" />
-                    <button type="button" onclick="removePart(this)">Remove</button>
+                    <button type="button" onclick="removePart(this)">Видалити</button>
                 </div>
             </div>
 
             <input type="hidden" name="deletedParts" id="deletedParts" />
 
             <div class="add-part-row">
-                <label>Add Part:</label>
+                <label>Додати запчастину:</label>
                 <select id="newPartSelect">
-                    <option value="">-- Select Part --</option>
+                    <option value="">-- Виберіть запчастину --</option>
                     <option th:each="p : ${allParts}" th:value="${p.id}" th:text="${p.name}"></option>
                 </select>
                 <input type="number" id="newPartQty" placeholder="Qty" min="1" />
-                <button type="button" onclick="addPart()">+ Add Part</button>
+                <button type="button" onclick="addPart()">+ Додати</button>
             </div>
 
-            <button type="submit">Save</button>
+            <button type="submit">Зберегти</button>
         </form>
     </div>
 </main>

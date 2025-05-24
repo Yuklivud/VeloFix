@@ -18,9 +18,9 @@
       </a>
     </div>
     <nav class="nav">
-      <a href="/main#about">About us</a>
-      <a href="/main#services">Services</a>
-      <a href="/main#contact">Contacts</a>
+      <a href="/main#about">Про нас</a>
+      <a href="/main#services">Послуги</a>
+      <a href="/main#contact">Контакти</a>
     </nav>
     <div class="header-right">
 
@@ -60,34 +60,34 @@
 
 <main>
   <div class="form-wrapper">
-    <h1>Personal Cabinet</h1>
+    <h1>Персональний кабінет</h1>
     <div class="form-tabs">
-      <span class="tab active">Create bid</span>
+      <span class="tab active">Створити замовлення</span>
       <a th:href="@{/order}">
-        <span class="tab">Current orders</span>
+        <span class="tab">Поточні замовлення</span>
       </a>
       <a th:href="@{/order/history}">
-        <span class="tab">History</span>
+        <span class="tab">Історія замовлень</span>
       </a>
       <a th:href="@{/personal}">
-        <span class="tab">Personal data</span>
+        <span class="tab">Персональні дані</span>
       </a>
     </div>
 
     <form class="bid-form" th:action="@{/create/from-existing}" method="post" th:object="${orderRequestDto}">
       <div class="form-row">
         <div class="form-group">
-          <label>Bicycle</label>
+          <label>Велосипед</label>
           <select th:field="*{bicycleId}">
             <option value="" disabled selected th:if="${#lists.isEmpty(bicycles)}">No bicycles available</option>
             <option th:each="b : ${bicycles}" th:value="${b.id}"
                     th:text="${b.brand + ' ' + b.model + ' (' + b.year + ')'}"></option>
           </select>
-          <a href="/create" class="small-link">Create new bicycle</a>
+          <a href="/create" class="small-link">Створити новий велосипед</a>
         </div>
 
         <div class="form-group">
-          <label>Address</label>
+          <label>Адреса</label>
           <select th:field="*{repairShopAddress}" required
                   oninvalid="this.setCustomValidity('Repair shop address is required')"
                   oninput="this.setCustomValidity('')">
@@ -102,19 +102,19 @@
           <label class="custom-checkbox">
             <input type="checkbox" th:field="*{warrantyRepair}">
             <span class="checkmark"></span>
-            Is warranty repair
+            Чи гарантійний ремонт
           </label>
         </div>
       </div>
 
       <div class="form-group">
-        <label>Issue</label>
+        <label>Проблема</label>
         <textarea rows="8" th:field="*{issueDescription}"></textarea>
       </div>
 
       <div class="form-actions">
-        <button type="button" class="cancel-btn" onclick="window.location.href='/'">Cancel</button>
-        <button type="submit" class="confirm-btn">Confirm</button>
+        <button type="button" class="cancel-btn" onclick="window.location.href='/'">Відмінити</button>
+        <button type="submit" class="confirm-btn">Підтвердити</button>
       </div>
     </form>
   </div>

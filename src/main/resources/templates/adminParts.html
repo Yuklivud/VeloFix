@@ -19,9 +19,9 @@
             </a>
         </div>
         <nav class="nav">
-            <a href="/main#about">About us</a>
-            <a href="/main#services">Services</a>
-            <a href="/main#contact">Contacts</a>
+            <a href="/main#about">Про нас</a>
+            <a href="/main#services">Послуги</a>
+            <a href="/main#contact">Контакти</a>
         </nav>
         <div class="header-right">
 
@@ -59,14 +59,14 @@
 </header>
 <main>
     <div class="form-wrapper">
-        <h1>Parts</h1>
+        <h1>Панель керування запчастинами</h1>
 
         <form method="get" th:action="@{/admin/parts}" class="filter-form">
             <div class="filter-group">
-                <input type="text" name="name" placeholder="Name" class="input" th:value="${filterName}" />
+                <input type="text" name="name" placeholder="Назва" class="input" th:value="${filterName}" />
 
                 <select name="categoryId" class="input">
-                    <option value="">All categories</option>
+                    <option value="">Всі категорії</option>
                     <option th:each="category : ${categories}"
                             th:value="${category.id}"
                             th:text="${category.name}"
@@ -74,26 +74,26 @@
                     </option>
                 </select>
 
-                <button type="submit" class="edit-btn">Apply filter</button>
-                <a th:href="@{/admin/parts}" class="reset-btn">Reset</a>
+                <button type="submit" class="edit-btn">Застосувати фільтр</button>
+                <a th:href="@{/admin/parts}" class="reset-btn">Скинути</a>
             </div>
         </form>
 
-        <a th:href="@{/admin/parts/add}" class="edit-btn" style="margin-bottom: 20px; display: inline-block;">Add New Part</a>
+        <a th:href="@{/admin/parts/add}" class="edit-btn" style="margin-bottom: 20px; display: inline-block;">Додати нову запчастину</a>
 
         <div class="parts-list">
             <div class="part-item" th:each="part : ${parts}">
                 <div class="part-summary">
                     <div class="summary-row">
-                        <span class="part-name" th:text="${part.name}">Part Name</span>
-                        <span class="part-category" th:text="${part.category.name}">Category</span>
-                        <span class="part-price" th:text="${#numbers.formatDecimal(part.price, 1, 'COMMA', 2, 'POINT')}">Price</span>
-                        <span class="part-stock" th:text="'Qty: ' + ${part.stockQuantity}">Quantity</span>
+                        <span class="part-name" th:text="${part.name}">Запчастина</span>
+                        <span class="part-category" th:text="${part.category.name}">Категорія</span>
+                        <span class="part-price" th:text="${#numbers.formatDecimal(part.price, 1, 'COMMA', 2, 'POINT')}">Ціна</span>
+                        <span class="part-stock" th:text="'Кількість: ' + ${part.stockQuantity}">Кількість</span>
                         <span>
-              <a th:href="@{'/admin/parts/' + ${part.id} + '/edit'}" class="edit-btn" style="padding: 4px 10px; font-size: 0.85rem;">Edit</a>
-              <form th:action="@{'/admin/parts/' + ${part.id} + '/delete'}" method="post" style="display:inline" onsubmit="return confirm('Delete this part?');">
-                <button type="submit" class="delete-btn" style="padding: 4px 10px; font-size: 0.85rem; margin-left: 6px; background: #e63946; color: white; border: none; border-radius: 6px; cursor: pointer;">Delete</button>
-              </form>
+                      <a th:href="@{'/admin/parts/' + ${part.id} + '/edit'}" class="edit-btn" style="padding: 4px 10px; font-size: 0.85rem;">Редагувати</a>
+                      <form th:action="@{'/admin/parts/' + ${part.id} + '/delete'}" method="post" style="display:inline" onsubmit="return confirm('Delete this part?');">
+                        <button type="submit" class="delete-btn" style="padding: 4px 10px; font-size: 0.85rem; margin-left: 6px; background: #e63946; color: white; border: none; border-radius: 6px; cursor: pointer;">Видалити</button>
+                      </form>
             </span>
                     </div>
                 </div>

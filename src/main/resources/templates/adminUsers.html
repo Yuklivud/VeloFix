@@ -19,9 +19,9 @@
             </a>
         </div>
         <nav class="nav">
-            <a href="/main#about">About us</a>
-            <a href="/main#services">Services</a>
-            <a href="/main#contact">Contacts</a>
+            <a href="/main#about">Про нас</a>
+            <a href="/main#services">Послуги</a>
+            <a href="/main#contact">Контакти</a>
         </nav>
         <div class="header-right">
 
@@ -59,16 +59,16 @@
 </header>
 <main>
     <div class="form-wrapper">
-        <h1>Admin Users Panel</h1>
+        <h1>Панель керування користувачами</h1>
 
         <form method="get" th:action="@{/admin/users}" class="filter-form">
             <div class="filter-group">
 
-                <input type="text" name="fullName" placeholder="User name" class="input"
+                <input type="text" name="fullName" placeholder="Ім'я користувача" class="input"
                        th:value="${filter.fullName}" />
 
                 <select name="role" class="input">
-                    <option value="">Select role</option>
+                    <option value="">Роль</option>
                     <option th:each="role : ${roles}"
                             th:value="${role}"
                             th:text="${role}"
@@ -76,8 +76,8 @@
                     </option>
                 </select>
 
-                <button type="submit">Apply Filter</button>
-                <a th:href="@{/admin/users}" class="reset-btn">Reset Filter</a>
+                <button type="submit">Застосувати фільтр</button>
+                <a th:href="@{/admin/users}" class="reset-btn">Скинути</a>
             </div>
         </form>
 
@@ -86,10 +86,10 @@
                 <div class="user-summary" onclick="toggleDetails(this)">
                     <div class="summary-row">
                         <span><strong>ID:</strong> <span th:text="${user.id}"></span></span>
-                        <span><strong>Name:</strong> <span th:text="${user.fullName}"></span></span>
+                        <span><strong>ПІБ:</strong> <span th:text="${user.fullName}"></span></span>
                         <span><strong>Email:</strong> <span th:text="${user.email}"></span></span>
-                        <span><strong>Role:</strong> <span th:text="${user.role}"></span></span>
-                        <span><strong>Status:</strong> <span th:text="${user.status}"></span></span>
+                        <span><strong>Роль:</strong> <span th:text="${user.role}"></span></span>
+                        <span><strong>Статус:</strong> <span th:text="${user.status}"></span></span>
                     </div>
                 </div>
                 <div class="user-details" style="display:none; margin-top: 10px;"
@@ -97,7 +97,7 @@
                     <form th:action="@{'/admin/users/' + ${user.id} + '/edit'}" method="post">
 
                         <label>
-                            Role:
+                            Роль:
                             <select name="role" class="input"
                                     th:disabled="${currentUserRole == managerRole
                             and (user.role == managerRole or user.role == directorRole)}">
@@ -110,7 +110,7 @@
                         </label>
 
                         <label>
-                            Status:
+                            Статус:
                             <select name="status" class="input"
                                     th:disabled="${currentUserRole == managerRole
                             and (user.role == managerRole or user.role == directorRole)}">
@@ -124,7 +124,7 @@
 
                         <button type="submit"
                                 th:disabled="${currentUserRole == managerRole
-                          and (user.role == managerRole or user.role == directorRole)}">Save</button>
+                          and (user.role == managerRole or user.role == directorRole)}">Зберегти</button>
                     </form>
                 </div>
 

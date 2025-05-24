@@ -18,9 +18,9 @@
       </a>
     </div>
     <nav class="nav">
-      <a href="/main#about">About us</a>
-      <a href="/main#services">Services</a>
-      <a href="/main#contact">Contacts</a>
+      <a href="/main#about">Про нас</a>
+      <a href="/main#services">Послуги</a>
+      <a href="/main#contact">Контакти</a>
     </nav>
     <div class="header-right">
 
@@ -60,33 +60,33 @@
 
 <main>
   <div class="form-wrapper">
-    <h1>Personal Cabinet</h1>
+    <h1>Персональний кабінет</h1>
     <div class="form-tabs">
-      <span class="tab active">Create bid</span>
+      <span class="tab active">Створити замовлення</span>
       <a th:href="@{/order}">
-        <span class="tab">Current orders</span>
+        <span class="tab">Поточні замовлення</span>
       </a>
       <a th:href="@{/order/history}">
-        <span class="tab">History</span>
+        <span class="tab">Історія замовлень</span>
       </a>
       <a th:href="@{/personal}">
-        <span class="tab">Personal data</span>
+        <span class="tab">Персональні дані</span>
       </a>
     </div>
     <form th:action="@{/create}" th:object="${orderRequestDto}" method="post" class="bid-form">
       <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
       <div class="form-row">
         <div class="form-group">
-          <label>Brand</label>
-          <input type="text" th:field="*{brand}" placeholder="Brand" required
+          <label>Марка</label>
+          <input type="text" th:field="*{brand}" placeholder="Марка" required
                  oninvalid="this.setCustomValidity('Brand is required')"
                  oninput="this.setCustomValidity('')"/>
           <div th:if="${#fields.hasErrors('brand')}" th:errors="*{brand}" class="error-message"></div>
-          <a href="/create/from-existing" class="small-link">Already have bicycle?</a>
+          <a href="/create/from-existing" class="small-link">Вже маєте велосипед?</a>
         </div>
 
         <div class="form-group">
-          <label>Model</label>
+          <label>Модель</label>
           <select th:field="*{model}" required
                   oninvalid="this.setCustomValidity('Model is required')"
                   oninput="this.setCustomValidity('')">
@@ -99,8 +99,8 @@
         </div>
 
         <div class="form-group">
-          <label>Year</label>
-          <input type="number" th:field="*{year}" placeholder="Year" min="1900" max="2100" required
+          <label>Рік</label>
+          <input type="number" th:field="*{year}" placeholder="Рік" min="1900" max="2100" required
                  oninvalid="this.setCustomValidity('Year is required')"
                  oninput="this.setCustomValidity('')"/>
           <div th:if="${#fields.hasErrors('year')}" th:errors="*{year}" class="error-message"></div>
@@ -109,15 +109,15 @@
 
       <div class="form-row">
         <div class="form-group">
-          <label>Serial Number</label>
-          <input type="text" th:field="*{serialNumber}" placeholder="Serial Number" required
+          <label>Серійний номер</label>
+          <input type="text" th:field="*{serialNumber}" placeholder="Серійний номер" required
                  oninvalid="this.setCustomValidity('Serial number is required')"
                  oninput="this.setCustomValidity('')"/>
           <div th:if="${#fields.hasErrors('serialNumber')}" th:errors="*{serialNumber}" class="error-message"></div>
         </div>
 
         <div class="form-group">
-          <label>Repair Shop Address</label>
+          <label>Адреса ремонтного сервісу</label>
           <select th:field="*{repairShopAddress}" required
                   oninvalid="this.setCustomValidity('Repair shop address is required')"
                   oninput="this.setCustomValidity('')">
@@ -133,22 +133,22 @@
           <label class="custom-checkbox">
             <input type="checkbox" th:field="*{warrantyRepair}"/>
             <span class="checkmark"></span>
-            Is warranty repair
+            Чи гарантійний ремонт
           </label>
         </div>
       </div>
 
       <div class="form-group">
-        <label>Issue Description</label>
-        <textarea rows="8" th:field="*{issueDescription}" placeholder="Describe the issue" required
+        <label>Опис проблеми</label>
+        <textarea rows="8" th:field="*{issueDescription}" placeholder="Опишіть проблему" required
                   oninvalid="this.setCustomValidity('Issue description is required')"
                   oninput="this.setCustomValidity('')"></textarea>
         <div th:if="${#fields.hasErrors('issueDescription')}" th:errors="*{issueDescription}" class="error-message"></div>
       </div>
 
       <div class="form-actions">
-        <button type="button" class="cancel-btn">Cancel</button>
-        <button type="submit" class="confirm-btn">Confirm</button>
+        <button type="button" class="cancel-btn">Відмінити</button>
+        <button type="submit" class="confirm-btn">Підтвердити</button>
       </div>
     </form>
 

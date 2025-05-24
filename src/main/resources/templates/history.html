@@ -19,9 +19,9 @@
       </a>
     </div>
     <nav class="nav">
-      <a href="/main#about">About us</a>
-      <a href="/main#services">Services</a>
-      <a href="/main#contact">Contacts</a>
+      <a href="/main#about">Про нас</a>
+      <a href="/main#services">Послуги</a>
+      <a href="/main#contact">Контакти</a>
     </nav>
     <div class="header-right">
 
@@ -60,20 +60,18 @@
 </header>
 
 <main>
-
-
   <div class="form-wrapper">
-    <h1>Personal Cabinet</h1>
+    <h1>Персональний кабінет</h1>
     <div class="form-tabs">
       <a th:href="@{/create}">
-        <span class="tab">Create bid</span>
+        <span class="tab">Створити замовлення</span>
       </a>
       <a th:href="@{/order}">
-        <span class="tab">Current orders</span>
+        <span class="tab">Поточні замовлення</span>
       </a>
-        <span class="tab active">History</span>
+        <span class="tab active">Історія замовлень</span>
       <a th:href="@{/personal}">
-        <span class="tab">Personal data</span>
+        <span class="tab">Персональні дані</span>
       </a>
     </div>
     <div class="orders-list">
@@ -81,31 +79,31 @@
         <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
         <div class="order-summary" onclick="toggleDetails(this)">
           <div class="summary-row">
-            <span><strong>Order №</strong> <span th:text="${order.id}"></span></span>
-            <span><strong>Date:</strong> <span th:text="${#temporals.format(order.createdAt, 'dd.MM.yyyy')}"></span></span>
-            <span><strong>Price:</strong> <span th:text="${order.totalCost != null ? order.totalCost + ' USD' : 'TBD'}"></span></span>
-            <span><strong>Status:</strong> <span th:text="${order.status}" class="status"></span></span>
+            <span><strong>Замовлення №</strong> <span th:text="${order.id}"></span></span>
+            <span><strong>Дата:</strong> <span th:text="${#temporals.format(order.createdAt, 'dd.MM.yyyy')}"></span></span>
+            <span><strong>Ціна:</strong> <span th:text="${order.totalCost != null ? order.totalCost + ' USD' : 'TBD'}"></span></span>
+            <span><strong>Статус:</strong> <span th:text="${order.status}" class="status"></span></span>
           </div>
         </div>
 
         <div class="order-details" style="display:none">
-          <p><strong>Bicycle:</strong> <span th:text="${order.bicycle.brand + ' ' + order.bicycle.model}"></span></p>
-          <p><strong>Payment type:</strong> <span th:text="${order.paymentType} ?: 'Not selected yet'"></span></p>
-          <p><strong>Payment status:</strong> <span th:text="${order.paymentStatus}"></span></p>
-          <p><strong>Repair note:</strong> <span th:text="${order.repairNote} ?: 'N/A'"></span></p>
+          <p><strong>Велосипед:</strong> <span th:text="${order.bicycle.brand + ' ' + order.bicycle.model}"></span></p>
+          <p><strong>Тип оплати:</strong> <span th:text="${order.paymentType} ?: 'Not selected yet'"></span></p>
+          <p><strong>Статус оплати:</strong> <span th:text="${order.paymentStatus}"></span></p>
+          <p><strong>Нотатки ремонту:</strong> <span th:text="${order.repairNote} ?: 'N/A'"></span></p>
 
-          <label><strong>Issue:</strong></label>
+          <label><strong>Проблема:</strong></label>
           <p th:text="${order.issueDescription}"></p>
 
           <div th:if="${order.repairParts != null and !order.repairParts.isEmpty()}">
-            <h4>Parts</h4>
+            <h4>Запчастини</h4>
             <table>
               <thead>
               <tr>
-                <th>Part name</th>
-                <th>Price</th>
-                <th>Quantity</th>
-                <th>Sum</th>
+                <th>Запчастина</th>
+                <th>Ціна</th>
+                <th>Кількість</th>
+                <th>Сума</th>
               </tr>
               </thead>
               <tbody>
@@ -120,7 +118,7 @@
             </table>
 
           </div>
-          <p><strong>Total:</strong> <span th:text="${order.totalCost != null ? order.totalCost + ' USD' : 'TBD'}"></span></p>
+          <p><strong>Сума:</strong> <span th:text="${order.totalCost != null ? order.totalCost + ' USD' : 'TBD'}"></span></p>
         </div>
       </div>
     </div>

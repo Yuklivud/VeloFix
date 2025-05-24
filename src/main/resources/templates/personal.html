@@ -19,9 +19,9 @@
       </a>
     </div>
     <nav class="nav">
-      <a href="/main#about">About us</a>
-      <a href="/main#services">Services</a>
-      <a href="/main#contact">Contacts</a>
+      <a href="/main#about">Про нас</a>
+      <a href="/main#services">Послуги</a>
+      <a href="/main#contact">Контакти</a>
     </nav>
     <div class="header-right">
 
@@ -61,19 +61,19 @@
 
 <main>
   <div class="form-wrapper">
-    <h1>Personal Cabinet</h1>
+    <h1>Персональний кабінет</h1>
     <div class="form-tabs">
       <a th:href="@{/create}">
-        <span class="tab">Create bid</span>
+        <span class="tab">Створити замовлення</span>
       </a>
       <a th:href="@{/order}">
-        <span class="tab">Current orders</span>
+        <span class="tab">Поточні замовлення</span>
       </a>
       <a th:href="@{/order/history}">
-        <span class="tab">History</span>
+        <span class="tab">Історія замовлень</span>
       </a>
       <a th:href="@{/personal}">
-        <span class="tab active">Personal data</span>
+        <span class="tab active">Персональні дані</span>
       </a>
     </div>
 
@@ -91,7 +91,7 @@
 
     <form th:action="@{/personal}" th:object="${userNameDto}" method="post">
       <div class="form-group">
-        <label for="lastName">Last name:</label>
+        <label for="lastName">Ім'я:</label>
         <input type="text" th:field="*{lastName}" id="lastName"
                required oninvalid="this.setCustomValidity('Last name is required')"
                oninput="this.setCustomValidity('')" />
@@ -99,7 +99,7 @@
       </div>
 
       <div class="form-group">
-        <label for="firstName">First name:</label>
+        <label for="firstName">Прізвище:</label>
         <input type="text" th:field="*{firstName}" id="firstName"
                required oninvalid="this.setCustomValidity('First name is required')"
                oninput="this.setCustomValidity('')" />
@@ -107,13 +107,13 @@
       </div>
 
       <div class="form-group">
-        <label for="middleName">Middle name:</label>
+        <label for="middleName">По-батькові:</label>
         <input type="text" th:field="*{middleName}" id="middleName" />
         <div th:if="${#fields.hasErrors('middleName')}" th:errors="*{middleName}" class="error"></div>
       </div>
 
       <div class="form-group">
-        <label for="phone">Phone:</label>
+        <label for="phone">Телефон:</label>
         <input type="tel" th:field="*{phone}" id="phone"
                required oninvalid="this.setCustomValidity('Phone is required')"
                oninput="this.setCustomValidity('')" />
@@ -121,20 +121,20 @@
       </div>
 
       <div class="form-group">
-        <label for="password">Password:</label>
+        <label for="password">Пароль:</label>
         <input type="password" th:field="*{password}" id="password"
                oninvalid="this.setCustomValidity('Password is required (min 6 characters)')"
                oninput="this.setCustomValidity('')" />
         <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="error"></div>
       </div>
 
-      <button type="submit" class="btn btn-primary">Save</button>
+      <button type="submit" class="btn btn-primary">Зберегти</button>
     </form>
 
 
 
     <form th:action="@{/logout}" method="post">
-      <button class="logout" type="submit">Logout</button>
+      <button class="logout" type="submit">Вийти</button>
     </form>
   </div>
 </main>
